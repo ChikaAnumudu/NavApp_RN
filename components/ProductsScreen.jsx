@@ -20,10 +20,13 @@ const ProductsScreen = ({navigation}) => {
         );
     }
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Welcome to the Product page</Text>
+    <View style={{ flex: 1, alignItems: "center" }}>
+      <View style={{ marginVertical : 10 }}>
+        <Text style={{ fontSize: 22, fontWeight: "bold", color: "red" }}>Welcome to the Product page</Text>
+      </View>
+      
 
-      <View style={{ height: '50%'}}>
+      <View style={{ height: '80%', width: '90%'}}>
         {/* {BUTTONS.map(button => addButton({...button}))} */}
 
         <FlatList 
