@@ -1,12 +1,19 @@
 import { StyleSheet, Button, View, Text, FlatList } from "react-native";
-import React from 'react'
+import React, {useState} from 'react'
 import { BUTTONS } from '../models/ProductData'
 import ColorButton from "./ColorButton";
-// import { FlatList } from 'react-native/types_generated/index'
+
 
 const ProductsScreen = ({navigation}) => {
+    const [buttons, setColoredButtons] = useState(BUTTONS);
     const handleOnPress = () => {
         navigation.navigate("Home")
+    };
+
+    const deleteColoredButton = (id) => {
+      const newButtons = buttons.filter((button) => button.id !== id);
+      setColoredButtons(newButtons);
+      console.log('Buttons deleted !! ID is : ', id);
     }
 
     const addButton = (props) => {
@@ -30,10 +37,15 @@ const ProductsScreen = ({navigation}) => {
         {/* {BUTTONS.map(button => addButton({...button}))} */}
 
         <FlatList 
-          data={BUTTONS}
+          data={buttons}
           keyExtractor={item => item.id}
           // renderItem={({item}) => addButton({...item})}
-          renderItem={({item}) => <ColorButton {...item} /> }
+          renderItem={({item}) => 
+            <ColorButton 
+              {...item} 
+              deleteColoredButton={deleteColoredButton} 
+            /> 
+          }
           // numColumns={2}
           // columnWrapperStyle={{ justifyContent: 'space-between', width: "80%"}}
         />
