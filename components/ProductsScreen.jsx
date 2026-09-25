@@ -42,7 +42,7 @@ const ProductsScreen = ({navigation}) => {
           // renderItem={({item}) => addButton({...item})}
           renderItem={({item}) => 
             <ColorButton 
-              {...item} 
+              item={item} 
               deleteColoredButton={deleteColoredButton} 
             /> 
           }
