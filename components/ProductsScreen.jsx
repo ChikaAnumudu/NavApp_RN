@@ -2,6 +2,7 @@ import { StyleSheet, Button, View, Text, FlatList,Modal } from "react-native";
 import React, {useState} from 'react'
 import { BUTTONS } from '../models/ProductData'
 import ColorButton from "./ColorButton";
+import AddColorModal from "./AddColorModal";
 
 
 const ProductsScreen = ({navigation}) => {
@@ -30,27 +31,32 @@ const ProductsScreen = ({navigation}) => {
     const addNewColor = () => {
       console.log('Add new color button pressed !!');
       setModalVisible(true);
+    };
+    // modal
+    const closeModal = () => {
+      setModalVisible(false);
     }
   return (
     <View style={{ flex: 1, alignItems: "center" }}>
-      <View style={{ marginVertical : 10 }}>
-        <Text style={{ fontSize: 22, fontWeight: "bold", color: "red" }}>Welcome to the Product page</Text>
+      <View style={{ marginVertical: 10 }}>
+        <Text style={{ fontSize: 22, fontWeight: "bold", color: "red" }}>
+          Welcome to the Product page
+        </Text>
       </View>
-      
 
-      <View style={{ height: '80%', width: '90%'}}>
+      <View style={{ height: "80%", width: "90%" }}>
         {/* {BUTTONS.map(button => addButton({...button}))} */}
 
-        <FlatList 
+        <FlatList
           data={buttons}
-          keyExtractor={item => item.id}
+          keyExtractor={(item) => item.id}
           // renderItem={({item}) => addButton({...item})}
-          renderItem={({item}) => 
-            <ColorButton 
-              item={item} 
-              deleteColoredButton={deleteColoredButton} 
-            /> 
-          }
+          renderItem={({ item }) => (
+            <ColorButton
+              item={item}
+              deleteColoredButton={deleteColoredButton}
+            />
+          )}
           // numColumns={2}
           // columnWrapperStyle={{ justifyContent: 'space-between', width: "80%"}}
         />
@@ -75,7 +81,7 @@ const ProductsScreen = ({navigation}) => {
         </View> */}
       </View>
 
-      <Modal
+      {/* <Modal
         visible={isModalVisible}
         onRequestClose={() => setModalVisible(!isModalVisible)}
         transparent={true}
@@ -85,13 +91,18 @@ const ProductsScreen = ({navigation}) => {
           <Button title="close" onPress={() => setModalVisible(!setModalVisible)}/>        
         </View>
 
-      </Modal>
-      
-      <View style={{ flexDirection: "row", justifyContent: "space-around", width: "50%"}}>
+      </Modal> */}
+      {isModalVisible ? <AddColorModal closeModal={closeModal} /> : null}
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-around",
+          width: "50%",
+        }}
+      >
         <Button title="Go to Home page" onPress={handleOnPress} />
-        <Button title="Add" onPress={addNewColor} /> 
+        <Button title="Add" onPress={addNewColor} />
       </View>
-
     </View>
   );
 }
