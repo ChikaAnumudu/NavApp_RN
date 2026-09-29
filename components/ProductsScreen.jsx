@@ -8,6 +8,9 @@ import AddColorModal from "./AddColorModal";
 const ProductsScreen = ({navigation}) => {
     const [buttons, setColoredButtons] = useState(BUTTONS);
     const [isModalVisible, setModalVisible] = useState(false);
+    const [nextId, setNextId] = useState(BUTTONS.length + 1);
+
+
     const handleOnPress = () => {
         navigation.navigate("Home")
     };
@@ -28,9 +31,13 @@ const ProductsScreen = ({navigation}) => {
             />
         );
     }
-    const addNewColor = () => {
-      console.log('Add new color button pressed !!');
-      setModalVisible(true);
+    const addNewColor = (newDetails) => {
+      const newColoredButton = [ {id:nextId, ...newDetails}, ...buttons];
+      setColoredButtons(newColoredButton)
+      setNextId(nextId + 1);
+      setModalVisible(false);
+      // console.log('Add new color button pressed !!');
+      // setModalVisible(true);
     };
     // modal
     const closeModal = () => {
@@ -92,7 +99,9 @@ const ProductsScreen = ({navigation}) => {
         </View>
 
       </Modal> */}
-      {isModalVisible ? <AddColorModal closeModal={closeModal} /> : null}
+      {isModalVisible ? (
+        <AddColorModal closeModal={closeModal} addColorButton={addNewColor} />
+      ) : null}
       <View
         style={{
           flexDirection: "row",
@@ -101,7 +110,7 @@ const ProductsScreen = ({navigation}) => {
         }}
       >
         <Button title="Go to Home page" onPress={handleOnPress} />
-        <Button title="Add" onPress={addNewColor} />
+        <Button title="Add" onPress={() => setModalVisible(true)} />
       </View>
     </View>
   );

@@ -1,31 +1,34 @@
 import { useRef, useState } from "react";
 import { StyleSheet, Button, View, Text, Modal, TextInput } from "react-native";
 
-export default function AddColorModal({closeModal}) {
+export default function AddColorModal({ closeModal, addColorButton }) {
+  const [colorName, setColorName] = useState("");
+  const [newColor, setNewColor] = useState("");
+  const [description, setDescription] = useState("");
+  const [ error, setError] = useState();
 
-    const [ colorName, setColorName ] = useState('');
-    const [ newColor, setNewColor ] = useState('');
-    const [description, setDescription] = useState('');
+  const colorRef = useRef();
+  const descRef = useRef();
 
-    const colorRef = useRef();
-    const descRef = useRef();
+  const isValidInput = () => {
+    // simply check that there is an input
+    if (colorName.length > 0 && newColor.length > 0 && description.length > 0)
+      return true;
+    // set Error message
+    setError(true);
+    console.log("An error has occurred");
+    return false;
+  };
 
-    const isValidInput = () => {
-        // simply check that there is an input
-        if (colorName.length > 0 && newColor.length > 0 && description.length > 0) return true;
-        // set Error message 
-        console.log('An error has occurred')
-        return false;
+  const addNewColorModal = () => {
+    if (isValidInput()) {
+      // submit New Color
+      addColorButton({name: colorName, color: newColor, description: description})
+    //   console.log("Valid Input, ready to add new color");
     }
-
-    const addNewColorModal = () => {
-        if (isValidInput()) {
-            // submit New Color
-            console.log('Valid Input, ready to add new color')
-        }
-        // else error message and return
-        console.log('New Color Added');
-    }
+    // else error message and return
+    console.log("New Color Added");
+  };
   return (
     <Modal
       //   visible={isModalVisible}
@@ -64,6 +67,13 @@ export default function AddColorModal({closeModal}) {
           keyboardType="default"
           returnKeyType="done"
         />
+        <View style={{ height: 40 }}>
+          {error ? (
+            <Text style={{ color: "red", fontSize: 12, fontWeight: "bold" }}>
+              *** All Field Must Be Set ***
+            </Text>
+          ) : null}
+        </View>
         <View style={styles.buttonStyle}>
           <Button title="Cancle" onPress={() => closeModal()} />
           <Button title="Add" onPress={() => addNewColorModal()} />
