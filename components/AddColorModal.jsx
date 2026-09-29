@@ -1,11 +1,29 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { StyleSheet, Button, View, Text, Modal, TextInput } from "react-native";
 
 export default function AddColorModal({closeModal}) {
 
-    const [ colorName, setColorName ] = useState();
+    const [ colorName, setColorName ] = useState('');
+    const [ newColor, setNewColor ] = useState('');
+    const [description, setDescription] = useState('');
+
+    const colorRef = useRef();
+    const descRef = useRef();
+
+    const isValidInput = () => {
+        // simply check that there is an input
+        if (colorName.length > 0 && newColor.length > 0 && description.length > 0) return true;
+        // set Error message 
+        console.log('An error has occurred')
+        return false;
+    }
 
     const addNewColorModal = () => {
+        if (isValidInput()) {
+            // submit New Color
+            console.log('Valid Input, ready to add new color')
+        }
+        // else error message and return
         console.log('New Color Added');
     }
   return (
@@ -14,23 +32,42 @@ export default function AddColorModal({closeModal}) {
       onRequestClose={() => closeModal()}
       transparent={true}
     >
-      <View
-        style={styles.rootStyle}
-      >
+      <View style={styles.rootStyle}>
         <Text style={{ fontSize: 15, color: "blue", fontWeight: "bold" }}>
           Add New Color
         </Text>
-        <TextInput 
-            onChangeText={setColorName}
-            value={colorName}
-            placeholder="Name : "
-            style={styles.inputStyle}
+        <TextInput
+          onChangeText={setColorName}
+          value={colorName}
+          placeholder="Name : "
+          style={styles.inputStyle}
+          returnKeyType="next"
+          onSubmitEditing={() => colorRef.current.focus()}
+        />
+        <TextInput
+          ref={colorRef}
+          onChangeText={setNewColor}
+          value={newColor}
+          placeholder="Name : "
+          autoCapitalize="none"
+          style={styles.inputStyle}
+          returnKeyType="next"
+          onSubmitEditing={() => descRef.current.focus()}
+        />
+        <TextInput
+          ref={descRef}
+          onChangeText={setDescription}
+          value={description}
+          placeholder="Description : "
+          style={styles.inputStyle}
+          onSubmitEditing={addNewColorModal}
+          keyboardType="default"
+          returnKeyType="done"
         />
         <View style={styles.buttonStyle}>
-            <Button title="Cancle" onPress={() => closeModal()} />
-            <Button title="Add" onPress={() => addNewColorModal()} />            
+          <Button title="Cancle" onPress={() => closeModal()} />
+          <Button title="Add" onPress={() => addNewColorModal()} />
         </View>
-
       </View>
     </Modal>
   );
@@ -63,6 +100,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     justifyContent: "space-evenly",
+    marginTop: 20,
   },
 });
    
