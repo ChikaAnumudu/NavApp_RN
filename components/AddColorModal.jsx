@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { StyleSheet, Button, View, Text, Modal, TextInput } from "react-native";
 
-export default function AddColorModal({ closeModal, addColorButton }) {
+export default function AddColorModal({ closeModal, addColorButton, editMode }) {
   const [colorName, setColorName] = useState("");
   const [newColor, setNewColor] = useState("");
   const [description, setDescription] = useState("");
@@ -37,7 +37,7 @@ export default function AddColorModal({ closeModal, addColorButton }) {
     >
       <View style={styles.rootStyle}>
         <Text style={{ fontSize: 15, color: "blue", fontWeight: "bold" }}>
-          Add New Color
+          {`${editMode ? "Add" : "Edit"} New Color`}
         </Text>
         <TextInput
           onChangeText={setColorName}

@@ -9,6 +9,7 @@ const ProductsScreen = ({navigation}) => {
     const [buttons, setColoredButtons] = useState(BUTTONS);
     const [isModalVisible, setModalVisible] = useState(false);
     const [nextId, setNextId] = useState(BUTTONS.length + 1);
+    const [editMode, setEditMode] = useState(false);
 
 
     const handleOnPress = () => {
@@ -40,6 +41,11 @@ const ProductsScreen = ({navigation}) => {
       // setModalVisible(true);
     };
     // modal
+    const editColorButtonModal = () => {
+      // set edit modal true
+      setEditMode(true)
+      setModalVisible(true)
+    }
     const closeModal = () => {
       setModalVisible(false);
     }
@@ -62,6 +68,7 @@ const ProductsScreen = ({navigation}) => {
             <ColorButton
               item={item}
               deleteColoredButton={deleteColoredButton}
+              editColorButtonModal={editColorButtonModal}
             />
           )}
           // numColumns={2}
@@ -100,7 +107,7 @@ const ProductsScreen = ({navigation}) => {
 
       </Modal> */}
       {isModalVisible ? (
-        <AddColorModal closeModal={closeModal} addColorButton={addNewColor} />
+        <AddColorModal closeModal={closeModal} editMode={editMode} addColorButton={addNewColor} />
       ) : null}
       <View
         style={{

@@ -3,27 +3,43 @@ import { useNavigation } from '@react-navigation/native';
 import {AntDesign} from "@expo/vector-icons";
 
 const ColorButton = (props) => {
-    const {item, item:{color, name, id}, deleteColoredButton} = props;
+    const {
+      item,
+      item: { color, name, id },
+      deleteColoredButton,
+      editColorButtonModal,
+    } = props;
     const navigation = useNavigation();
+    const editHandler = () => {
+      console.log('Edit pressed')
+      editColorButtonModal();
+    }
   return (
     <View style={styles.productContainer}>
       <Pressable
         onPress={() => navigation.navigate("ProductsDetails", { ...item })}
-        style={({ pressed }) => (
+        style={({ pressed }) =>
           pressed
             ? [styles.pressed, styles.pressableStyle]
             : [styles.unPressed, styles.pressableStyle]
-        )}
+        }
       >
         <Text style={styles.textStyle}>{name}</Text>
         <View style={[styles.buttonStyle, { backgroundColor: color }]}></View>
       </Pressable>
 
-      <Pressable 
+      <Pressable
         onPress={() => deleteColoredButton(id)}
         style={styles.deleteIconStyle}
       >
         <AntDesign name="delete" size={28} color="black" />
+      </Pressable>
+      {/* Edit Button */}
+      <Pressable
+        onPress={() => editHandler()}
+        style={styles.editIconStyle}
+      >
+        <AntDesign name="edit" size={24} color="black" />
       </Pressable>
     </View>
   );
@@ -73,4 +89,11 @@ const styles = StyleSheet.create({
     borderLeftColor: "black",
     borderLeftWidth: 2,
   },
+  editIconStyle : {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    borderLeftColor: "black",
+    borderLeftWidth: 2,
+  }
 });
