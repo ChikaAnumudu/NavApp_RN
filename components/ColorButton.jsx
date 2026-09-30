@@ -12,7 +12,7 @@ const ColorButton = (props) => {
     const navigation = useNavigation();
     const editHandler = () => {
       console.log('Edit pressed')
-      editColorButtonModal();
+      editColorButtonModal(id);
     }
   return (
     <View style={styles.productContainer}>

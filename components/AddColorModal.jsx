@@ -1,11 +1,17 @@
 import { useRef, useState } from "react";
 import { StyleSheet, Button, View, Text, Modal, TextInput } from "react-native";
 
-export default function AddColorModal({ closeModal, addColorButton, editMode }) {
-  const [colorName, setColorName] = useState("");
-  const [newColor, setNewColor] = useState("");
-  const [description, setDescription] = useState("");
-  const [ error, setError] = useState();
+export default function AddColorModal({
+  closeModal,
+  addColorButton,
+  editMode,
+  buttonDetails,
+  updateButton,
+}) {
+  const [colorName, setColorName] = useState(buttonDetails.name);
+  const [newColor, setNewColor] = useState(buttonDetails.color);
+  const [description, setDescription] = useState(buttonDetails.description);
+  const [error, setError] = useState();
 
   const colorRef = useRef();
   const descRef = useRef();
@@ -20,15 +26,34 @@ export default function AddColorModal({ closeModal, addColorButton, editMode }) 
     return false;
   };
 
+
   const addNewColorModal = () => {
     if (isValidInput()) {
       // submit New Color
-      addColorButton({name: colorName, color: newColor, description: description})
-    //   console.log("Valid Input, ready to add new color");
+      addColorButton({
+        name: colorName,
+        color: newColor,
+        description: description,
+      });
+      //   console.log("Valid Input, ready to add new color");
     }
     // else error message and return
-    console.log("New Color Added");
+    // console.log("New Color Added");
   };
+    const editColorMode = () => {
+        if (isValidInput()) {
+          // submit New Color
+          updateButton({
+            id: buttonDetails.id,
+            name: colorName,
+            color: newColor,
+            description: description,
+          });
+          //   console.log("Valid Input, ready to add new color");
+        }
+        // console.log("color edited");
+    };
+
   return (
     <Modal
       //   visible={isModalVisible}
@@ -37,7 +62,7 @@ export default function AddColorModal({ closeModal, addColorButton, editMode }) 
     >
       <View style={styles.rootStyle}>
         <Text style={{ fontSize: 15, color: "blue", fontWeight: "bold" }}>
-          {`${editMode ? "Add" : "Edit"} New Color`}
+          {`${editMode ? "Edit" : "Add"} New Color`}
         </Text>
         <TextInput
           onChangeText={setColorName}
@@ -51,7 +76,7 @@ export default function AddColorModal({ closeModal, addColorButton, editMode }) 
           ref={colorRef}
           onChangeText={setNewColor}
           value={newColor}
-          placeholder="Name : "
+          placeholder="Color : "
           autoCapitalize="none"
           style={styles.inputStyle}
           returnKeyType="next"
@@ -63,7 +88,7 @@ export default function AddColorModal({ closeModal, addColorButton, editMode }) 
           value={description}
           placeholder="Description : "
           style={styles.inputStyle}
-          onSubmitEditing={addNewColorModal}
+          onSubmitEditing={editModev ? editColorMode : addNewColorModal}
           keyboardType="default"
           returnKeyType="done"
         />
@@ -76,7 +101,11 @@ export default function AddColorModal({ closeModal, addColorButton, editMode }) 
         </View>
         <View style={styles.buttonStyle}>
           <Button title="Cancle" onPress={() => closeModal()} />
-          <Button title="Add" onPress={() => addNewColorModal()} />
+          {editMode ? (
+            <Button title="Update" onPress={() => editColorMode()} />
+          ) : (
+            <Button title="Add" onPress={() => addNewColorModal()} />
+          )}
         </View>
       </View>
     </Modal>
@@ -88,7 +117,7 @@ const styles = StyleSheet.create({
     height: "50%",
     width: "70%",
     //   justifyContent: "center",
-    paddingTop: 15,
+    paddingTop: 5,
     marginTop: "25%",
     alignSelf: "center",
     alignItems: "center",
@@ -110,7 +139,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     justifyContent: "space-evenly",
-    marginTop: 20,
+    marginTop: 10,
   },
 });
    

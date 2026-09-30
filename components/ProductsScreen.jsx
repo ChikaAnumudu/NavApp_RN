@@ -10,6 +10,7 @@ const ProductsScreen = ({navigation}) => {
     const [isModalVisible, setModalVisible] = useState(false);
     const [nextId, setNextId] = useState(BUTTONS.length + 1);
     const [editMode, setEditMode] = useState(false);
+    const [ currId, setCurrId ] = useState(null);
 
 
     const handleOnPress = () => {
@@ -41,13 +42,36 @@ const ProductsScreen = ({navigation}) => {
       // setModalVisible(true);
     };
     // modal
-    const editColorButtonModal = () => {
+    const editColorButtonModal = (id) => {
+      // store id in state
+      setCurrId(id)
       // set edit modal true
       setEditMode(true)
       setModalVisible(true)
     }
+
+    const updateButton = (details) => {
+      console.log(details);
+      const newButtons = buttons.map((button)=>{
+        if (button.id === details.id) {
+          return details;
+        }else{
+          return button;
+        }
+      });
+      setColoredButtons(newButtons)
+      closeModal()
+    }
+    const getButtonDetails = () => {
+      const itemDetails = buttons.find((button) => button.id === currId)
+      return itemDetails || { name: '', color: '', description: ''};
+      // console.log(itemDetails);
+    }
+
     const closeModal = () => {
       setModalVisible(false);
+      setCurrId(null)
+      setEditMode(false)
     }
   return (
     <View style={{ flex: 1, alignItems: "center" }}>
@@ -107,7 +131,13 @@ const ProductsScreen = ({navigation}) => {
 
       </Modal> */}
       {isModalVisible ? (
-        <AddColorModal closeModal={closeModal} editMode={editMode} addColorButton={addNewColor} />
+        <AddColorModal
+          closeModal={closeModal}
+          editMode={editMode}
+          addColorButton={addNewColor}
+          buttonDetails={getButtonDetails()}
+          updateButton={updateButton}
+        />
       ) : null}
       <View
         style={{
