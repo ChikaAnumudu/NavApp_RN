@@ -7,6 +7,8 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import ProductsScreen from './components/ProductsScreen';
 import ProductsDetails from './components/ProductsDetails';
 import HomeScreen from './components/HomeScreen';
+import CustomDrawer from './components/CustomDrawer';
+import { ButtonDispatchContext } from './Utils/ButtonsContext';
 
 
 const NativeStack = createNativeStackNavigator();
@@ -21,7 +23,7 @@ const Drawer = createDrawerNavigator();
 // }
 function ProductDrawer() {
   return (
-    <Drawer.Navigator>
+    <Drawer.Navigator drawerContent={(props) => <CustomDrawer {...props} />}>
       <Drawer.Screen
         name="Store"
         component={ProductsScreen}
@@ -50,7 +52,15 @@ function StackScreens() {
 }
 
 export default function App() {
-  return <NavigationContainer>{StackScreens()}</NavigationContainer>;
+  return (
+    <ButtonsContext.Provider value={}>
+      <ButtonDispatchContext.Provider value={} >
+        <NavigationContainer>{StackScreens()}</NavigationContainer>
+      </ButtonDispatchContext.Provider>
+      
+    </ButtonsContext.Provider>
+    
+  );
 }
 
 const styles = StyleSheet.create({
