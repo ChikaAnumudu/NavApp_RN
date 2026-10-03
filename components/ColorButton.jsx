@@ -10,6 +10,7 @@ const ColorButton = (props) => {
       editColorButtonModal,
     } = props;
     const navigation = useNavigation();
+    
     const editHandler = () => {
       console.log('Edit pressed')
       editColorButtonModal(id);

@@ -1,19 +1,23 @@
 import { StyleSheet, Button, View, Text, FlatList,Modal } from "react-native";
-import React, {useReducer, useState} from 'react'
-import { BUTTONS } from '../models/ProductData'
+import React, {useContext, useReducer, useState} from 'react'
+// import { BUTTONS } from '../models/ProductData'
 import ColorButton from "./ColorButton";
 import AddColorModal from "./AddColorModal";
 import ButtonsReducer from "../Utils/ButtonsReducer";
+import { ButtonDispatchContext, ButtonsContext } from "../Utils/ButtonsContext";
 
 
 const ProductsScreen = ({navigation}) => {
     const [isModalVisible, setModalVisible] = useState(false);
-    const [nextId, setNextId] = useState(BUTTONS.length + 1);
     const [editMode, setEditMode] = useState(false);
     const [ currId, setCurrId ] = useState(null);
 
     // const [buttons, setColoredButtons] = useState(BUTTONS);
-    const [ buttons, dispatch ] = useReducer( ButtonsReducer, BUTTONS);
+    // const [ buttons, dispatch ] = useReducer( ButtonsReducer, BUTTONS);
+    
+    const buttons = useContext(ButtonsContext);
+    const dispatch = useContext(ButtonDispatchContext);
+    const [nextId, setNextId] = useState(buttons.length + 1);
 
 
     const handleOnPress = () => {
@@ -41,16 +45,15 @@ const ProductsScreen = ({navigation}) => {
             />
         );
     }
-    const addNewColor = (newDetails) => {
+    const addNewColor = (buttonDetails) => {
       dispatch({
-        type : 'add',
-        id:nextId,
-        button : newDetails
-      })
-      
+        type: "add",
+        id: new Date().valueOf(),
+        button: buttonDetails,
+      });
+
       setNextId(nextId + 1);
       setModalVisible(false);
-
     };
 
     const updateButton = (details) => {

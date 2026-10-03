@@ -8,7 +8,10 @@ import ProductsScreen from './components/ProductsScreen';
 import ProductsDetails from './components/ProductsDetails';
 import HomeScreen from './components/HomeScreen';
 import CustomDrawer from './components/CustomDrawer';
-import { ButtonDispatchContext } from './Utils/ButtonsContext';
+import { ButtonDispatchContext, ButtonsContext } from "./Utils/ButtonsContext";
+import { useReducer } from 'react';
+import ButtonsReducer from './Utils/ButtonsReducer';
+import { BUTTONS } from './models/ProductData';
 
 
 const NativeStack = createNativeStackNavigator();
@@ -52,9 +55,10 @@ function StackScreens() {
 }
 
 export default function App() {
+  const [ buttons, dispatch ] = useReducer(ButtonsReducer, BUTTONS)
   return (
-    <ButtonsContext.Provider value={}>
-      <ButtonDispatchContext.Provider value={} >
+    <ButtonsContext.Provider value={buttons}>
+      <ButtonDispatchContext.Provider value={dispatch} >
         <NavigationContainer>{StackScreens()}</NavigationContainer>
       </ButtonDispatchContext.Provider>
       
