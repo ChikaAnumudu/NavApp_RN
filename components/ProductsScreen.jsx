@@ -1,16 +1,19 @@
 import { StyleSheet, Button, View, Text, FlatList,Modal } from "react-native";
-import React, {useState} from 'react'
+import React, {useReducer, useState} from 'react'
 import { BUTTONS } from '../models/ProductData'
 import ColorButton from "./ColorButton";
 import AddColorModal from "./AddColorModal";
+import ButtonsReducer from "../Utils/ButtonsReducer";
 
 
 const ProductsScreen = ({navigation}) => {
-    const [buttons, setColoredButtons] = useState(BUTTONS);
     const [isModalVisible, setModalVisible] = useState(false);
     const [nextId, setNextId] = useState(BUTTONS.length + 1);
     const [editMode, setEditMode] = useState(false);
     const [ currId, setCurrId ] = useState(null);
+
+    // const [buttons, setColoredButtons] = useState(BUTTONS);
+    const [ buttons, dispatch ] = useReducer( ButtonsReducer, BUTTONS);
 
 
     const handleOnPress = () => {
@@ -18,8 +21,13 @@ const ProductsScreen = ({navigation}) => {
     };
 
     const deleteColoredButton = (id) => {
-      const newButtons = buttons.filter((button) => button.id !== id);
-      setColoredButtons(newButtons);
+      // const newButtons = buttons.filter((button) => button.id !== id);
+      // setColoredButtons(newButtons);
+
+      dispatch({
+        type: 'delete',
+        id: id
+      })
       console.log('Buttons deleted !! ID is : ', id);
     }
 
@@ -34,13 +42,27 @@ const ProductsScreen = ({navigation}) => {
         );
     }
     const addNewColor = (newDetails) => {
-      const newColoredButton = [ {id:nextId, ...newDetails}, ...buttons];
-      setColoredButtons(newColoredButton)
+      dispatch({
+        type : 'add',
+        id:nextId,
+        button : newDetails
+      })
+      
       setNextId(nextId + 1);
       setModalVisible(false);
-      // console.log('Add new color button pressed !!');
-      // setModalVisible(true);
+
     };
+
+    const updateButton = (details) => {
+      console.log(details);
+
+      dispatch({
+        type: 'update',
+        button : details
+      })
+      closeModal();
+    };
+
     // modal
     const editColorButtonModal = (id) => {
       // store id in state
@@ -50,18 +72,7 @@ const ProductsScreen = ({navigation}) => {
       setModalVisible(true)
     }
 
-    const updateButton = (details) => {
-      console.log(details);
-      const newButtons = buttons.map((button)=>{
-        if (button.id === details.id) {
-          return details;
-        }else{
-          return button;
-        }
-      });
-      setColoredButtons(newButtons)
-      closeModal()
-    }
+
     const getButtonDetails = () => {
       const itemDetails = buttons.find((button) => button.id === currId)
       return itemDetails || { name: '', color: '', description: ''};

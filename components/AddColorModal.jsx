@@ -19,12 +19,12 @@ export default function AddColorModal({
   const isValidInput = () => {
     // simply check that there is an input
     if (colorName.length > 0 && newColor.length > 0 && description.length > 0)
-      return true;
-    // set Error message
-    setError(true);
-    console.log("An error has occurred");
-    return false;
-  };
+        return true;
+        // set Error message
+        setError(true);
+        console.log("An error has occurred");
+        return false;
+    };
 
 
   const addNewColorModal = () => {
@@ -88,7 +88,7 @@ export default function AddColorModal({
           value={description}
           placeholder="Description : "
           style={styles.inputStyle}
-          onSubmitEditing={editModev ? editColorMode : addNewColorModal}
+          onSubmitEditing={editMode ? editColorMode : addNewColorModal}
           keyboardType="default"
           returnKeyType="done"
         />
