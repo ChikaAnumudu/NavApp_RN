@@ -12,6 +12,7 @@ import { ButtonDispatchContext, ButtonsContext } from "./Utils/ButtonsContext";
 import { useReducer } from 'react';
 import ButtonsReducer from './Utils/ButtonsReducer';
 import { BUTTONS } from './models/ProductData';
+import { useEffect } from 'react';
 
 
 const NativeStack = createNativeStackNavigator();
@@ -56,6 +57,22 @@ function StackScreens() {
 
 export default function App() {
   const [ buttons, dispatch ] = useReducer(ButtonsReducer, BUTTONS)
+
+  useEffect(() => {
+
+    async function loadButtons() {
+      try{
+        const savedButtonsJSON = await AsyncStorage.getItem('storedButtons');
+        if (savedButtonsJSON !== null) {
+          // action
+          dispatch({ type: 'initalize', buttons: JSON.parse(savedButtonsJSON) });
+        }
+      }catch (error) { console.log(error)}
+    }
+    loadButtons();
+  }, [])
+
+
   return (
     <ButtonsContext.Provider value={buttons}>
       <ButtonDispatchContext.Provider value={dispatch} >

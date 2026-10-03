@@ -24,6 +24,11 @@ export default function ButtonsReducer( buttons, action ) {
             return(newButtons);            
         }
 
+        case 'initalize' : {
+            const newState = action.state;
+            return newState;
+        }
+
         default : {
             throw Error('Unknown action: ' + action.type)
         }
