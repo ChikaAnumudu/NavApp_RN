@@ -55,7 +55,14 @@ const ProductsScreen = ({navigation}) => {
       setNextId(nextId + 1);
       setModalVisible(false);
     };
+    
+    const closeModal = () => {
+      setModalVisible(false);
+      setCurrId(null);
+      setEditMode(false);
+    };
 
+    
     const updateButton = (details) => {
       console.log(details);
 
@@ -82,11 +89,7 @@ const ProductsScreen = ({navigation}) => {
       // console.log(itemDetails);
     }
 
-    const closeModal = () => {
-      setModalVisible(false);
-      setCurrId(null)
-      setEditMode(false)
-    }
+
   return (
     <View style={{ flex: 1, alignItems: "center" }}>
       <View style={{ marginVertical: 10 }}>

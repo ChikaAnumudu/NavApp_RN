@@ -13,6 +13,7 @@ import { useReducer } from 'react';
 import ButtonsReducer from './Utils/ButtonsReducer';
 import { BUTTONS } from './models/ProductData';
 import { useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const NativeStack = createNativeStackNavigator();
