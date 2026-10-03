@@ -10,33 +10,47 @@ import HomeScreen from './components/HomeScreen';
 
 
 const NativeStack = createNativeStackNavigator();
-const DrawerStack = createDrawerNavigator();
+const Drawer = createDrawerNavigator();
 
-function HomeDrawer() {
+// function HomeDrawer() {
+//   return (
+//     <Drawer.Navigator>
+
+//     </Drawer.Navigator>
+//   )
+// }
+function ProductDrawer() {
   return (
-    <DrawerStack.Navigator>
-      <DrawerStack.Screen name='Home' component={HomeScreen} />
-      <DrawerStack.Screen name='Products' component={StackScreens} options={ {headerShown : false}}/>
-    </DrawerStack.Navigator>
-  )
+    <Drawer.Navigator>
+      <Drawer.Screen
+        name="Store"
+        component={ProductsScreen}
+        options={{ title: "Store" }}
+      />
+      <Drawer.Screen
+        name="ProductsDetails"
+        component={ProductsDetails}
+        options={{ title: "" }}
+      />
+    </Drawer.Navigator>
+  );
 }
 
 function StackScreens() {
   return (
     <NativeStack.Navigator>
-      {/* <NativeStack.Screen name="Home" component={HomeScreen} /> */}
-      <NativeStack.Screen name="Store" component={ProductsScreen} />
+      <NativeStack.Screen name="Home" component={HomeScreen} />
       <NativeStack.Screen
-        name="ProductsDetails"
-        component={ProductsDetails}
-        options={{ title: "Details" }}
+        name="Product"
+        component={ProductDrawer}
+        options={{ headerShown: false }}
       />
     </NativeStack.Navigator>
   );
 }
 
 export default function App() {
-  return <NavigationContainer>{HomeDrawer()}</NavigationContainer>;
+  return <NavigationContainer>{StackScreens()}</NavigationContainer>;
 }
 
 const styles = StyleSheet.create({
