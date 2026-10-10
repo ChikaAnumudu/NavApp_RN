@@ -21,7 +21,7 @@ const ProductsScreen = ({navigation}) => {
 
 
     const handleOnPress = () => {
-        navigation.navigate("Home")
+      navigation.navigate("Homes")
     };
 
     const deleteColoredButton = (id) => {
